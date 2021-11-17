@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/CSS/home.css' %}">
+
+<style >
+       div.registerForm {
+              width: 60%;
+              padding: 20px;
+              background-color: white;
+              border-style: groove;
+              border-radius: 20px;
+              margin: auto;
+              margin-top: 30px;
+       }
+</style>
+
+
+<body>
+       <ul class="topnav">
+              <li>
+                     <a href="{% url 'home' %}">Home</a>
+              </li>
+              <li>
+                     <a href="{% url 'menu' %}">Menu</a>
+              </li>
+              <li>
+                     <a href="#order">Order</a>
+              </li>
+              <li>
+                     <a href="#contact">Contact</a>
+              </li>
+              <li class="right">
+              </li>
+       </ul>
+
+       <div class="registerForm">
+              <form method="post" action="{% url 'register' %}">
+                      {% csrf_token %}
+                      {{ form.as_p }}
+                      <button type="submit">Sign up</button>
+              </form>
+       </div>
+</body>
+
+</html>

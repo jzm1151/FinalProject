@@ -8,14 +8,161 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'main/CSS/menu.css' %}">
 
+<style type="text/css"> 
+		.sun {
+	width: 100px;
+	height: 100px;
+	background-color: #FFDE00;
+	border-radius: 50%;
+	box-shadow:
+		0 0 0 20px #FFDE0080,
+		0 0 0 40px #FFDE0040,
+		0 0 0 60px #FFDE0020,
+		0 0 0 80px #FFDE0010,
+		0 0 0 100px #FFDE0000,
+		0 0 40px 100px #FFDE0010;
+	animation:
+		sunrise 2s infinite linear forwards,
+		rays 2s 2s infinite linear;
+}
+
+@keyframes sunrise {
+	0% {
+		box-shadow: none;
+	}
+}
+
+@keyframes rays {
+	0% {
+		box-shadow: 
+		0 0 0 0 #FFDE0080,
+		0 0 0 20px #FFDE0080,
+		0 0 0 40px #FFDE0040,
+		0 0 0 60px #FFDE0020,
+		0 0 0 80px #FFDE0010,
+		0 0 40px 100px #FFDE0010;
+	}
+	100% {
+		box-shadow: 
+		0 0 0 20px #FFDE0080,
+		0 0 0 40px #FFDE0040,
+		0 0 0 60px #FFDE0020,
+		0 0 0 80px #FFDE0010,
+		0 0 0 100px #FFDE0000,
+		0 0 40px 100px #FFDE0010;
+	}
+}
+
+		div.menuItem {
+			width: 87%;
+			margin: auto;
+			background-color: white;
+			border-radius: 30px;
+			margin-bottom: 10px;
+			margin-top: 10px;
+			overflow: auto;
+			position: relative;
+			box-shadow: inset 0px 0px 40px 40px #DBA632;
+		}
+
+		div.menuItem img {
+		  float: left;
+		  width: 50%;
+		  height: 300px;
+		  object-fit: cover;
+		  border-radius: 26px;
+		}
+
+		div.menuItem button {
+			position: absolute;
+			bottom: 10px;
+			right: 10px;
+		}
+
+		div.menuItem p {
+			position: absolute;
+			margin-left: 55%;
+			margin-top: 10%;
+		}
+
+		@media screen and (min-width: 1000px) {
+			div.menuItem {
+				width: 60%;
+			}
+		}
+
+			@media screen and (max-width: 500px) {
+				div.menuItem {
+					height: 370px;
+				}
+
+				div.menuItem img {
+					float: none;
+					border-radius: 0px;
+					height: 200px;
+					width: 100%;
+				}
+
+				div.menuItem p {
+					margin-top: 0px;
+					margin-left: 0px;
+					padding: 7px;
+				}
+
+				div.menuItem button {
+					bottom: 140px;
+				}
+		}
+
+
+	.dropbtn {
+	  background-color: #04AA6D;
+	  color: white;
+	  padding: 16px;
+	  font-size: 16px;
+	  border: none;
+	}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+body {
+		background-color: #cccccc;
+  	background-image: linear-gradient(red, yellow);
+}
+
+</style>
+
 <body>
-	<h3 class="greeting"> Welcome to our restaurant </h3>
+	<h3 class="greeting"> Sunset restaurant </h3>
+
 	<ul class="topnav">
 		<li>
 			<a href="{% url 'home' %}">Home</a>
-		</li>
-		<li>
-			<a href="{% url 'menu' %}">Menu</a>
 		</li>
 		<li>
 			<a href="#order">Order</a>
@@ -24,15 +171,28 @@
 			<a href="#contact">Contact</a>
 		</li>
 		<li class="right">
-			<a href="#Login">Login</a>
+				{% if user.is_authenticated %}
+						<a href="{% url 'logout' %}">Logout</a>
+				{% else %}
+						<a href="{% url 'register' %}">Register</a>
+				{% endif %}
 		</li>
 	</ul>
 
+	<div class="sun">
+		<p>Filters</p>
+	</div>
+
    {% for item in menu %}
-      <div> 
-         <img src={{item.image.url}} style="width: 90px; height: 90px;">
-         <p>Id: {{item.id}} Name: {{item.name}}</p>
-         <p>Description: {{item.description}}</p>
+      <div class="menuItem"> 
+         	<img src={{item.image.url}}>
+	         		<p>{{item.name}} <br> 
+	         			${{item.price}}<br>
+	         			               <br>
+	         			Ingredient list: <br>
+	          		{{item.description}} <br>
+	       			</p>
+       		<button>Add to order</button>
       </div>
       {% empty %}
       <p>Nothing found</p>

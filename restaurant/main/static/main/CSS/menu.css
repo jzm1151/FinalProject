@@ -1,4 +1,6 @@
 h3.greeting {
+	color: white;
+	opacity: .85;
 	text-align: center;
 }
 
