@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en-us" xmlns="">
 
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'main/CSS/home.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'main/CSS/signup_login.css' %}">
+
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="{% static 'main/scripts/signup_login.js' %}" ></script>
 
 <style >
        div.registerForm {
@@ -15,13 +18,16 @@
               background-color: white;
               border-style: groove;
               border-radius: 20px;
-              margin: auto;
-              margin-top: 30px;
+              margin: 30px auto auto;
        }
 </style>
 
 
 <body>
+       <div class="sun"></div>
+
+       <h3 class="greeting"> Sunset restaurant </h3>
+
        <ul class="topnav">
               <li>
                      <a href="{% url 'home' %}">Home</a>

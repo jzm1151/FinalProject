@@ -7,7 +7,7 @@ h3.greeting {
 
 ul.topnav {
 	position: sticky;
-	position: -webkit-sticky; 
+	position: -webkit-sticky;
 	top: 0;
 	list-style-type: none;
 	margin: 0 0 10px;
@@ -100,76 +100,10 @@ ul.topnav li a.active {
 	}
 }
 
-div.menuItem {
-	width: 87%;
-	background-color: white;
-	margin: auto auto 35px;
-	overflow: auto;
-	position: relative;
-	box-shadow: 20px 20px 20px #1b1b1b,
-				inset 0px 0px 40px 40px #e35f5f;
-}
-
-div.menuItem img {
-  float: left;
-  width: 50%;
-  height: 300px;
-  object-fit: cover;
-}
-
-div.menuItem button {
-	position: absolute;
-	background-color: #333;
-	color: white;
-	font-family: serif;
-	border: none;
-	border-radius: 4px;
-	padding: 4px;
-	bottom: 10px;
-	right: 10px;
-}
-
-div.menuItem button:hover {
-	transform: translateY(-3px);
-	background-color: #111;
-}
-
-div.menuItem p {
-	position: absolute;
-	padding-left: 5px;
-	margin-left: 55%;
-	margin-top: 10%;
-}
-
-@media screen and (min-width: 1000px) {
-	div.menuItem {
-		width: 60%;
-	}
-}
-
-@media screen and (max-width: 500px) {
-	div.menuItem {
-		height: 370px;
-	}
-
-	div.menuItem img {
-		float: none;
-		height: 200px;
-		width: 100%;
-	}
-
-	div.menuItem p {
-		margin-top: 0px;
-		margin-left: 0px;
-		padding: 7px;
-	}
-
-	div.menuItem button {
-		bottom: 140px;
-	}
-}
-
 body {
-	background-color: #cccccc;
-  	background-image: linear-gradient(#FF567B, #8B008F);
+    background: linear-gradient(#FF567B, #8B008F) no-repeat fixed center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
