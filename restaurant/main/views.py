@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import MenuItem
 
-from django.contrib.auth.models import User
 from .forms import UserSignUpForm
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
 
 
 def home(request):
@@ -17,22 +17,13 @@ def menu(request):
     return render(request, 'main/menu.html', context)
 
 
-def menu_catagory(request):
-    menu_obj = MenuItem.objects.order_by('catagory')
-    context = {'menu': menu_obj}
-    return render(request, 'main/menu.html', context)
-
-
-def menu_name(request):
-    menu_obj = MenuItem.objects.order_by('name')
-    context = {'menu': menu_obj}
-    return render(request, 'main/menu.html', context)
-
-
-def menu_price(request):
-    menu_obj = MenuItem.objects.order_by('price')
-    context = {'menu': menu_obj}
-    return render(request, 'main/menu.html', context)
+def sign_in(request):
+    login_form = AuthenticationForm
+    signup_form = UserSignUpForm
+    context = {'login_form': login_form,
+               'signup_form': signup_form
+               }
+    return render(request, 'main/sign_in.html', context)
 
 
 def register(request):
@@ -45,13 +36,25 @@ def register(request):
 
             if user is not None:
                 login(request, user)
+                return redirect('home')
 
-            return render(request, 'main/home.html')
+    return redirect('sign_in')
 
-    form = UserSignUpForm()
-    context = {'form': form}
 
-    return render(request, 'main/register.html', context)
+def my_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+
+    return redirect('sign_in')
 
 
 def logout_user(request):

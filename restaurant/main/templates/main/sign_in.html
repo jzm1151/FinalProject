@@ -16,7 +16,14 @@
               width: 60%;
               padding: 20px;
               background-color: white;
-              border-style: groove;
+              border-radius: 20px;
+              margin: 30px auto auto;
+       }
+
+       div.loginForm {
+              width: 60%;
+              padding: 20px;
+              background-color: white;
               border-radius: 20px;
               margin: 30px auto auto;
        }
@@ -45,11 +52,26 @@
               </li>
        </ul>
 
+       <div class="choices">
+              <input type="radio" id="loginRadio" name="choice" checked="checked">
+              <label for="loginRadio">Login</label>
+              <input type="radio" id="registerRadio" name="choice">
+              <label for="registerRadio">Sign up</label>
+       </div>
+
        <div class="registerForm">
               <form method="post" action="{% url 'register' %}">
                       {% csrf_token %}
-                      {{ form.as_p }}
+                      {{ signup_form.as_p }}
                       <button type="submit">Sign up</button>
+              </form>
+       </div>
+
+       <div class="loginForm">
+              <form method="post" action="{% url 'login' %}">
+                     {% csrf_token %}
+                     {{ login_form.as_p }}
+                     <button type="submit">Login</button>
               </form>
        </div>
 </body>

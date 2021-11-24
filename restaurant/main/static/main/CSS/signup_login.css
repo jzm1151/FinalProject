@@ -107,3 +107,8 @@ body {
     -o-background-size: cover;
     background-size: cover;
 }
+
+div.choices {
+	width: fit-content;
+	margin: auto;
+}
