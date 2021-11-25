@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'main/CSS/menu.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'main/CSS/base.css' %}">
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script src="{% static 'main/scripts/menu_icon_clicked.js' %}" ></script>
 
@@ -19,12 +19,15 @@
 		<div class="menuBar"></div>
 	</div>
 
-	<h3 class="greeting"> Sunset restaurant </h3>
+	<h3 class="greeting"> Sunset Restaurant </h3>
 
 	<ul class="topnav">
 		<li>
 			<a href="{% url 'home' %}">Home</a>
 		</li>
+        <li>
+            <a href="{% url 'menu' %}">Menu</a>
+        </li>
 		<li>
 			<a href="#order">Order</a>
 		</li>
@@ -40,20 +43,8 @@
 		</li>
 	</ul>
 
-   {% for item in menu %}
-      <div class="menuItem"> 
-         	<img src={{item.image.url}}>
-	         		<p>{{item.name}} <br> 
-	         			${{item.price}}<br>
-	         			               <br>
-	         			Ingredient list: <br>
-	          		{{item.description}} <br>
-	       			</p>
-       		<button>ADD TO CART</button>
-      </div>
-      {% empty %}
-      <p>Nothing found</p>
-   {% endfor %}
+    {% block body%}
+    {% endblock %}
 </body>
 
 </html>

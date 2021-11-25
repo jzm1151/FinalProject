@@ -1,79 +1,36 @@
-<!DOCTYPE html>
-<html lang="en-us" xmlns="">
+{% extends 'main/base.html' %}
 
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+{% block body%}
 
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'main/CSS/signup_login.css' %}">
-
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script src="{% static 'main/scripts/signup_login.js' %}" ></script>
 
 <style >
-       div.registerForm {
-              width: 60%;
-              padding: 20px;
-              background-color: white;
-              border-radius: 20px;
-              margin: 30px auto auto;
-       }
 
-       div.loginForm {
-              width: 60%;
-              padding: 20px;
-              background-color: white;
-              border-radius: 20px;
-              margin: 30px auto auto;
-       }
 </style>
 
+<div class="choices">
+       <input type="radio" id="loginRadio" name="choice" checked="checked">
+       <label for="loginRadio">Login</label>
+       <input type="radio" id="registerRadio" name="choice">
+       <label for="registerRadio">Sign up</label>
+</div>
 
-<body>
-       <div class="sun"></div>
+<div class="registerForm">
+       <form method="post" action="{% url 'register' %}">
+               {% csrf_token %}
+               {{ signup_form.as_p }}
+               <button type="submit">Sign up</button>
+       </form>
+</div>
 
-       <h3 class="greeting"> Sunset restaurant </h3>
+<div class="loginForm">
+       <form method="post" action="{% url 'login' %}">
+              {% csrf_token %}
+              {{ login_form.as_p }}
+              <button type="submit">Login</button>
+       </form>
+</div>
 
-       <ul class="topnav">
-              <li>
-                     <a href="{% url 'home' %}">Home</a>
-              </li>
-              <li>
-                     <a href="{% url 'menu' %}">Menu</a>
-              </li>
-              <li>
-                     <a href="#order">Order</a>
-              </li>
-              <li>
-                     <a href="#contact">Contact</a>
-              </li>
-              <li class="right">
-              </li>
-       </ul>
-
-       <div class="choices">
-              <input type="radio" id="loginRadio" name="choice" checked="checked">
-              <label for="loginRadio">Login</label>
-              <input type="radio" id="registerRadio" name="choice">
-              <label for="registerRadio">Sign up</label>
-       </div>
-
-       <div class="registerForm">
-              <form method="post" action="{% url 'register' %}">
-                      {% csrf_token %}
-                      {{ signup_form.as_p }}
-                      <button type="submit">Sign up</button>
-              </form>
-       </div>
-
-       <div class="loginForm">
-              <form method="post" action="{% url 'login' %}">
-                     {% csrf_token %}
-                     {{ login_form.as_p }}
-                     <button type="submit">Login</button>
-              </form>
-       </div>
-</body>
-
-</html>
+{% endblock %}

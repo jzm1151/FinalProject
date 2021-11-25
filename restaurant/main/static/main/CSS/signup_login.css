@@ -1,114 +1,20 @@
-h3.greeting {
-	color: white;
-	opacity: .85;
-	text-align: center;
-	text-shadow: 4px -2px 4px #1b1b1b;
-}
-
-ul.topnav {
-	position: sticky;
-	position: -webkit-sticky;
-	top: 0;
-	list-style-type: none;
-	margin: 0 0 10px;
-	padding: 0;
-	overflow: hidden;
-	background-color: #333;
-	opacity: .95;
-	z-index: 100;
-}
-
-ul.topnav li {
-	float: left;
-}
-
-ul.topnav li a {
-	display: block;
-	color: white;
-	text-align: center;
-	padding: 10px 10px;
-	text-decoration: none;
-}
-
-ul.topnav li.right {
-	float: right;
-}
-
-ul.topnav li a:hover:not(.active) {
-	background-color: #111;
-}
-
-ul.topnav li a.active {
-	background-color: #04AA6D;
-}
-
-@media screen and (max-width: 600px) {
-	ul.topnav li.right, ul.topnav li {
-		float: none;
-	}
-
-	ul.topnav li a {
-		padding: 5px 0px;
-	}
-}
-
-.sun {
-	position: absolute;
-	display: inline-block;
-	width: 100px;
-	height: 100px;
-	transform: translate(-27px, -27px);
-	background-color: #FFDE00;
-	border-radius: 50%;
-	z-index: -1;
-	box-shadow:
-		0 0 0 20px #FFDE0080,
-		0 0 0 40px #FFDE0040,
-		0 0 0 60px #FFDE0020,
-		0 0 0 80px #FFDE0010,
-		0 0 0 100px #FFDE0000,
-		0 0 40px 100px #FFDE0010;
-	animation:
-		sunrise 2s infinite linear forwards,
-		rays 2s 2s infinite linear;
-}
-
-@keyframes sunrise {
-	0% {
-		box-shadow: none;
-	}
-}
-
-@keyframes rays {
-	0% {
-		box-shadow:
-		0 0 0 0 #FFDE0080,
-		0 0 0 20px #FFDE0080,
-		0 0 0 40px #FFDE0040,
-		0 0 0 60px #FFDE0020,
-		0 0 0 80px #FFDE0010,
-		0 0 40px 100px #FFDE0010;
-	}
-	100% {
-		box-shadow:
-		0 0 0 20px #FFDE0080,
-		0 0 0 40px #FFDE0040,
-		0 0 0 60px #FFDE0020,
-		0 0 0 80px #FFDE0010,
-		0 0 0 100px #FFDE0000,
-		0 0 40px 100px #FFDE0010;
-	}
-}
-
-body {
-    background: linear-gradient(#FF567B, #8B008F) no-repeat fixed center center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
-
 div.choices {
 	width: fit-content;
 	margin: auto;
+}
+
+div.registerForm {
+	  width: 60%;
+	  padding: 20px;
+	  background-color: white;
+	  border-radius: 20px;
+	  margin: 30px auto auto;
+}
+
+div.loginForm {
+	  width: 60%;
+	  padding: 20px;
+	  background-color: white;
+	  border-radius: 20px;
+	  margin: 30px auto auto;
 }
