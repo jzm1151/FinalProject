@@ -1,59 +1,58 @@
-<!DOCTYPE html>
-<html lang="en-us">
+{% extends 'main/base.html' %}
 
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+{% block body%}
 
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'main/CSS/menu.css' %}">
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
-<script src="{% static 'main/scripts/menu_icon_clicked.js' %}" ></script>
 
-<body>
-	<div class="sun"></div>
+<div class="quantityForm">
+	<h3></h3>
+	<input type="hidden" id="priceItemQtyForm">
+	<input type="range" id="quantityOfItemToAdd" min="1" max="20" value="1"
+		oninput="
+				outputQuantity.value = this.value;
+				costOfAdding.value = (parseInt(this.value) * parseFloat(priceItemQtyForm.value)).toFixed(2);
+		">
+	<p style="display: inline">Qty: </p>
+	<output id="outputQuantity">1</output>
+	<br>
+	<p style="display: inline">Total cost: $</p>
+	<output id="costOfAdding"></output>
+	<button id="confirmAdd">ADD</button>
+	<button id="cancelAdd">CANCEL</button>
+</div>
 
-	<div class="menuIcon">
-		<div class="menuBar"></div>
-		<div class="menuBar"></div>
-		<div class="menuBar"></div>
-	</div>
+{% for item in menu %}
+<div class="menuItem">
+	<img src={{item.image.url}}>
+		<p>
+			{{item.name}} 	 		<br>
+			${{item.price}}  		<br>
+			  			 			<br>
+			Ingredient list: 		<br>
+			{{item.description}} 	<br>
+		</p>
+	<button id={{item.id}};{{item.name}};{{item.price}} onclick="displayQuantityForm(this)">ADD TO CART</button>
+</div>
 
-	<h3 class="greeting"> Sunset restaurant </h3>
+{% empty %}
+<p>Nothing found</p>
+{% endfor %}
 
-	<ul class="topnav">
-		<li>
-			<a href="{% url 'home' %}">Home</a>
-		</li>
-		<li>
-			<a href="#order">Order</a>
-		</li>
-		<li>
-			<a href="#contact">Contact</a>
-		</li>
-		<li>
-			{% if user.is_authenticated %}
-					<a href="{% url 'logout' %}">Logout</a>
-			{% else %}
-					<a href="{% url 'sign_in' %}">Register/Login</a>
-			{% endif %}
-		</li>
-	</ul>
+<script>
+	function displayQuantityForm(calling) {
+		const idNamePrice = calling.id.split(';');
+		$('.quantityForm h3').text(idNamePrice[1]);
+		$('#quantityOfItemToAdd').val('1');
+		$('#outputQuantity').val('1');
+		$('#priceItemQtyForm').val(idNamePrice[2]);
+		$('#costOfAdding').val(idNamePrice[2]);
+		$('.quantityForm').show();
+	}
 
-   {% for item in menu %}
-      <div class="menuItem"> 
-         	<img src={{item.image.url}}>
-	         		<p>{{item.name}} <br> 
-	         			${{item.price}}<br>
-	         			               <br>
-	         			Ingredient list: <br>
-	          		{{item.description}} <br>
-	       			</p>
-       		<button>ADD TO CART</button>
-      </div>
-      {% empty %}
-      <p>Nothing found</p>
-   {% endfor %}
-</body>
+	$('#cancelAdd').click(function () {
+		$('.quantityForm').hide();
+	});
+</script>
 
-</html>
+{% endblock %}

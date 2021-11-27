@@ -1,114 +1,3 @@
-body {
-	background-color: #cccccc;
-  	background-image: linear-gradient(#FF567B, #8B008F);
-}
-
-h3.greeting {
-	color: white;
-	opacity: .85;
-	text-align: center;
-	text-shadow: 4px -2px 4px #1b1b1b;
-}
-
-div.menuIcon {
-	position: fixed;
-	left: 0px;
-	margin-left: 7px;
-	width: fit-content;
-	height: fit-content;
-	z-index: 100;
-}
-
-div.menuBar {
-	width: 35px;
-  	height: 5px;
-	background-color: #333;
-  	margin: 6px 0;
-}
-
-ul.topnav {
-	display: none;
-	position: fixed;
-	top: 55px;
-	list-style-type: none;
-	margin: 0 0 10px;
-	padding: 0;
-	overflow: hidden;
-	background-color: #333;
-	z-index: 100;
-}
-
-ul.topnav li a {
-	display: block;
-	color: white;
-	text-align: center;
-	padding: 10px 10px;
-	text-decoration: none;
-}
-
-ul.topnav li a:hover:not(.active) {
-	background-color: #111;
-}
-
-ul.topnav li a.active {
-	background-color: #04AA6D;
-}
-
-.sun {
-	position: fixed;
-	display: inline-block;
-	width: 100px;
-	height: 100px;
-	transform: translate(-33px, -27px);
-	background-color: #FFDE00;
-	border-radius: 50%;
-	z-index: -1;
-	box-shadow:
-		0 0 0 20px #FFDE0080,
-		0 0 0 40px #FFDE0040,
-		0 0 0 60px #FFDE0020,
-		0 0 0 80px #FFDE0010,
-		0 0 0 100px #FFDE0000,
-		0 0 40px 100px #FFDE0010;
-	animation:
-		sunrise 2s infinite linear forwards,
-		rays 2s 2s infinite linear;
-}
-
-@keyframes sunrise {
-	0% {
-		box-shadow: none;
-	}
-}
-
-@keyframes rays {
-	0% {
-		box-shadow:
-		0 0 0 0 #FFDE0080,
-		0 0 0 20px #FFDE0080,
-		0 0 0 40px #FFDE0040,
-		0 0 0 60px #FFDE0020,
-		0 0 0 80px #FFDE0010,
-		0 0 40px 100px #FFDE0010;
-	}
-	100% {
-		box-shadow:
-		0 0 0 20px #FFDE0080,
-		0 0 0 40px #FFDE0040,
-		0 0 0 60px #FFDE0020,
-		0 0 0 80px #FFDE0010,
-		0 0 0 100px #FFDE0000,
-		0 0 40px 100px #FFDE0010;
-	}
-}
-
-@media screen and (max-width: 500px) {
-	h3.greeting {
-		float: right;
-		width: 87%;
-	}
-}
-
 div.menuItem {
 	width: 87%;
 	background-color: white;
@@ -159,7 +48,6 @@ div.menuItem p {
 @media screen and (max-width: 500px) {
 	div.menuItem {
 		height: 370px;
-		float: right;
 	}
 
 	div.menuItem img {
@@ -177,6 +65,39 @@ div.menuItem p {
 	div.menuItem button {
 		bottom: 140px;
 	}
+}
+
+div.quantityForm {
+	width: 290px;
+	height: fit-content;
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 10px;
+	background-color: #f6f6f6;
+	box-shadow: 5px 5px 3px #111111;
+	border-radius: 4px;
+	z-index: 101;
+}
+
+div.quantityForm h3 {
+	display: inline;
+}
+
+div.quantityForm button {
+	background-color: #333;
+	float: right;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	padding: 4px;
+}
+
+div.quantityForm button:hover {
+	transform: translateY(-3px);
+	background-color: #111;
 }
 
 
