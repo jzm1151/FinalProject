@@ -1,7 +1,9 @@
-from django.urls import path
-from . import views
+from django.urls import path, register_converter
+from . import views, converters
 from django.conf import settings
 from django.conf.urls.static import static
+
+register_converter(converters.IdListConverter, 'id_list')
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -10,6 +12,8 @@ urlpatterns = [
     path('logout', views.logout_user, name='logout'),
     path('register', views.register, name='register'),
     path('login', views.my_login, name='login'),
+    path('cart', views.cart, name='cart'),
+    path('testing/<id_list:id_list>', views.testing, name='testing'),
 ]
 
 if settings.DEBUG:

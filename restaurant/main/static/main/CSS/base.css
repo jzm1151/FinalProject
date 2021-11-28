@@ -107,6 +107,11 @@ ul.topnav li a:hover:not(.active) {
 	}
 }
 
+body {
+	opacity: 0;
+    transition: opacity 2s;
+	-webkit-transition: opacity 2s
+}
 
 
 

@@ -2,12 +2,12 @@ $(document).ready(function() {
     $('.registerForm').hide();
 
     $('#loginRadio').change(function() {
-        $('.registerForm').hide();
-        $('.loginForm').show();
+        $('.registerForm').hide(500);
+        $('.loginForm').show(500);
      });
 
     $('#registerRadio').change(function () {
-        $('.loginForm').hide();
-        $('.registerForm').show();
+        $('.loginForm').hide(500);
+        $('.registerForm').show(500);
     });
 });

@@ -6,6 +6,10 @@ from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 
+from django.http import JsonResponse
+import json
+from django.core.serializers.json import DjangoJSONEncoder
+
 
 def home(request):
     return render(request, 'main/home.html')
@@ -60,3 +64,16 @@ def my_login(request):
 def logout_user(request):
     logout(request)
     return render(request, 'main/home.html')
+
+
+def cart(request):
+    return render(request, 'main/cart.html')
+
+
+def testing(request, id_list):
+    id_item = dict()
+    for ident in id_list:
+        id_item[ident] = json.dumps(
+            list(MenuItem.objects.filter(id=ident).values('price', 'name', 'image', 'id'))[0], cls=DjangoJSONEncoder)
+
+    return JsonResponse(id_item)

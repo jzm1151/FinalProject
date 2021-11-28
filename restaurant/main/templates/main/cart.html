@@ -3,6 +3,41 @@
 {% block body%}
 
 {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'main/CSS/cart.css' %}">
+
+<div class="cart">
+    <h1>Cart</h1>
+    <div class="cartItemsContainer">
+        <div class="cartItem">
+            <img src="">
+            <h4></h4>
+            <button>REMOVE</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let cartIdList = localStorage.getItem('cartIdList');
+    let cartItemsURL = "{% url 'testing' id_list='' %}";
+    if (cartIdList === null) {
+        cartIdList = '';
+    }
+    cartItemsURL = cartItemsURL.concat(cartIdList);
+
+    $.get(cartItemsURL, function (data) {
+        let jsonObj;
+        let cartItem;
+        const modelItem = $('.cartItem');
+        for (const value of Object.values(data)) {
+            jsonObj = JSON.parse(value);
+            cartItem =  modelItem.clone();
+            cartItem.children('img').attr('src', '/media/' + jsonObj['image']);
+            cartItem.children('h4').text(jsonObj['name']);
+            cartItem.appendTo('.cartItemsContainer');
+            cartItem.show(1000);
+        }
+    });
 
 
+</script>
 {% endblock %}

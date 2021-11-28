@@ -10,7 +10,7 @@
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script src="{% static 'main/scripts/menu_icon_clicked.js' %}" ></script>
 
-<body>
+<body onload="document.body.style.opacity='1'">
 	<div class="sun"></div>
 
 	<div class="menuIcon">
@@ -32,7 +32,7 @@
 			<a href="#order">Order</a>
 		</li>
 		<li>
-			<a href="#contact">Contact</a>
+			<a href="{% url 'cart' %}">Cart</a>
 		</li>
 		<li>
 			{% if user.is_authenticated %}

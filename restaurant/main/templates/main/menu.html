@@ -7,6 +7,7 @@
 
 <div class="quantityForm">
 	<h3></h3>
+	<input type="hidden" id="idOfItemToAdd">
 	<input type="hidden" id="priceItemQtyForm">
 	<input type="range" id="quantityOfItemToAdd" min="1" max="20" value="1"
 		oninput="
@@ -43,15 +44,39 @@
 	function displayQuantityForm(calling) {
 		const idNamePrice = calling.id.split(';');
 		$('.quantityForm h3').text(idNamePrice[1]);
+		$('#idOfItemToAdd').val(idNamePrice[0]);
 		$('#quantityOfItemToAdd').val('1');
 		$('#outputQuantity').val('1');
 		$('#priceItemQtyForm').val(idNamePrice[2]);
 		$('#costOfAdding').val(idNamePrice[2]);
-		$('.quantityForm').show();
+		$('.quantityForm').show(500);
 	}
 
 	$('#cancelAdd').click(function () {
-		$('.quantityForm').hide();
+		$('.quantityForm').hide(500);
+	});
+
+	$('#confirmAdd').click(function () {
+		const cartIdListKey = 'cartIdList';
+		const cartIdDelimiter = '_';
+		const cartIdList = localStorage.getItem(cartIdListKey);
+		const itemQtyKey = $('#idOfItemToAdd').val();
+		const itemQty = localStorage.getItem(itemQtyKey);
+		const amountOfItemsToAdd = $('#quantityOfItemToAdd').val();
+
+		if (itemQty === null) {
+			localStorage.setItem(itemQtyKey, amountOfItemsToAdd);
+
+			if (cartIdList === null) {
+				localStorage.setItem(cartIdListKey, itemQtyKey.concat(cartIdDelimiter));
+			} else {
+				localStorage.setItem(cartIdListKey, cartIdList.concat(itemQtyKey, cartIdDelimiter));
+			}
+		} else {
+			localStorage.setItem(itemQtyKey, String(parseInt(itemQty) + parseInt(amountOfItemsToAdd)));
+		}
+
+		$('.quantityForm').hide(500);
 	});
 </script>
 
