@@ -6,18 +6,27 @@
 <link rel="stylesheet" type="text/css" href="{% static 'main/CSS/cart.css' %}">
 
 <div class="cart">
-    <h1>Cart</h1>
+    <h1 style="color: #f6f6f6">Cart</h1>
     <div class="cartItemsContainer">
         <div class="cartItem">
             <img src="">
+            <input type="hidden" id="price">
             <h4></h4>
-            <button>REMOVE</button>
+            <p style="display: inline;">$</p>
+            <output id="totalPrice">0</output>
+            <br>
+            <button class="removeItem"><</button>
+            <output class="quantityOfItem">0</output>
+            <button class="addAnother">></button>
+            <button class="remove">REMOVE</button>
         </div>
     </div>
 </div>
 
 <script>
-    let cartIdList = localStorage.getItem('cartIdList');
+    const cartIdListKey = 'cartIdList';
+    const cartIdListDelimiter = '_';
+    let cartIdList = localStorage.getItem(cartIdListKey);
     let cartItemsURL = "{% url 'testing' id_list='' %}";
     if (cartIdList === null) {
         cartIdList = '';
@@ -32,12 +41,32 @@
             jsonObj = JSON.parse(value);
             cartItem =  modelItem.clone();
             cartItem.children('img').attr('src', '/media/' + jsonObj['image']);
+            cartItem.children('#price').val(jsonObj['price']);
             cartItem.children('h4').text(jsonObj['name']);
+            cartItem.children('button.removeItem').click(function () {
+                let qty = parseInt($(this).siblings('output.quantityOfItem').val())-1;
+                if (qty < 0) return;
+                $(this).siblings('output.quantityOfItem').val(qty);
+                $(this).siblings('#totalPrice').val((parseFloat($(this).siblings('#price').val()) * (qty)).toFixed(2));
+            });
+            cartItem.children('button.addAnother').click(function () {
+                let qty = parseInt($(this).siblings('output.quantityOfItem').val())+1;
+                $(this).siblings('output.quantityOfItem').val(qty);
+                $(this).siblings('#totalPrice').val((parseFloat($(this).siblings('#price').val()) * (qty)).toFixed(2));
+            });
+            cartItem.children('output.quantityOfItem').val(localStorage.getItem(jsonObj['id']));
+            cartItem.children('#totalPrice').val((parseFloat(jsonObj['price']) * localStorage.getItem(jsonObj['id'])).toFixed(2));
+            cartItem.children('button.remove')
+                    .attr('id', jsonObj['id'])
+                    .click(function () {
+                        alert(this.id);
+                        alert(localStorage.getItem(cartIdListKey).replace(this.id.concat(cartIdListDelimiter), ''));
+                        $('#'.concat(this.id)).parent('.cartItem').hide(500);
+                    });
             cartItem.appendTo('.cartItemsContainer');
             cartItem.show(1000);
         }
     });
-
 
 </script>
 {% endblock %}
