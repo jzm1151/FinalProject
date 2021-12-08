@@ -51,6 +51,10 @@ def register(request):
 
 
 def my_login(request):
+    data = {
+        'result': False
+    }
+
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
 
@@ -61,9 +65,9 @@ def my_login(request):
 
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                data['result'] = True
 
-    return redirect('sign_in')
+    return JsonResponse(data)
 
 
 def logout_user(request):

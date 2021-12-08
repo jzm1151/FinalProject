@@ -25,7 +25,7 @@
        <form method="post" action="{% url 'login' %}">
               {% csrf_token %}
               {{ login_form.as_p }}
-              <button type="submit">LOGIN</button>
+              <button type="submit" onclick="return loginFormSubmission()">LOGIN</button>
        </form>
 </div>
 
@@ -53,6 +53,7 @@
                     $('.registerForm #id_password1').val('');
                     $('.registerForm #id_password2').val('');
                     alert('Thank you for creating an account with us!');
+                    reload();
                 } else {
                     alert('Account creation failed, please try again. ' +
                         'Make sure you are not using special characters in any of the fields.');
@@ -80,6 +81,36 @@
             }
         });
     });
+
+
+    function loginFormSubmission() {
+          $.ajax({
+            method: "POST",
+            url: "{% url 'login' %}",
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            dataType: 'json',
+            data: {'username' : $('.loginForm #id_username').val(),
+                   'password' : $('.loginForm #id_password').val(),
+            },
+            success: function (data) {
+                if (data.result === true) {
+                    $('.loginForm #id_username').val('');
+                    $('.loginForm #id_password').val('');
+                    alert('Login successful');
+                    reload();
+                } else {
+                    alert('Username and password do not match');
+                }
+            }
+        });
+
+        return false;
+    }
+
+    function reload() {
+        let container = document.getElementById('sign_inOrRegister');
+        container.innerHTML = "<a href={% url 'logout' %}>Logout</a>";
+    }
 </script>
 
 {% endblock %}
