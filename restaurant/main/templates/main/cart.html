@@ -58,7 +58,7 @@
             cartItem.children('h4').text(jsonObj['name']);
             cartItem.children('button.removeItem').click(function () {
                 const qty = parseInt($(this).siblings('output.quantityOfItem').val())-1;
-                if (qty < 0) return;
+                if (qty < 1) return;
                 const price = parseFloat($(this).siblings('#price').val());
                 const tax = 0.06;
                 let total = parseFloat($('#orderTotalBeforeTax').val());

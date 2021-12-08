@@ -14,10 +14,10 @@
 </div>
 
 <div class="registerForm">
-       <form method="post" action="{% url 'register' %}">
+       <form method="post" action="{% url 'register' %}" data-validate-username-url="{% url 'validate_username' %}">
                {% csrf_token %}
                {{ signup_form.as_p }}
-               <button type="submit">SIGN UP</button>
+               <button type="submit" onclick="return registerFormSubmission()">SIGN UP</button>
        </form>
 </div>
 
@@ -28,5 +28,58 @@
               <button type="submit">LOGIN</button>
        </form>
 </div>
+
+<script>
+    function registerFormSubmission() {
+        if ($('#id_password1').val() !== $('#id_password2').val()) {
+            alert('Passwords do not match');
+            return false;
+        }
+
+        $.ajax({
+            method: "POST",
+            url: "{% url 'register' %}",
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            dataType: 'json',
+            data: {'username' : $('.registerForm #id_username').val(),
+                   'email' : $('.registerForm #id_email').val(),
+                   'password1' : $('.registerForm #id_password1').val(),
+                   'password2' : $('.registerForm #id_password2').val()
+            },
+            success: function (data) {
+                if (data.result === true) {
+                    $('.registerForm #id_username').val('');
+                    $('.registerForm #id_email').val('');
+                    $('.registerForm #id_password1').val('');
+                    $('.registerForm #id_password2').val('');
+                    alert('Thank you for creating an account with us!');
+                } else {
+                    alert('Account creation failed, please try again. ' +
+                        'Make sure you are not using special characters in any of the fields.');
+                }
+            }
+        });
+
+        return false;
+    }
+
+    $('.registerForm #id_username').change(function () {
+        const username = $(this).val();
+        const form = $(this).closest("form");
+
+        $.ajax({
+            url: form.attr("data-validate-username-url"),
+            data: {
+                    'username': username
+                  },
+            dataType: 'json',
+            success: function (data) {
+                if (data.is_taken) {
+                   alert(data.error_message);
+                }
+            }
+        });
+    });
+</script>
 
 {% endblock %}

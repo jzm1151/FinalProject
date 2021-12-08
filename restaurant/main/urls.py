@@ -14,6 +14,7 @@ urlpatterns = [
     path('login', views.my_login, name='login'),
     path('cart', views.cart, name='cart'),
     path('testing/<id_list:id_list>', views.testing, name='testing'),
+    path('validate_username', views.validate_username, name='validate_username'),
 ]
 
 if settings.DEBUG:

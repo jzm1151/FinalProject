@@ -5,6 +5,7 @@ from .forms import UserSignUpForm
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 
 from django.http import JsonResponse
 import json
@@ -31,6 +32,10 @@ def sign_in(request):
 
 
 def register(request):
+    data = {
+        'result': False
+    }
+
     if request.method == 'POST':
         form = UserSignUpForm(request.POST)
 
@@ -40,9 +45,9 @@ def register(request):
 
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                data['result'] = True
 
-    return redirect('sign_in')
+    return JsonResponse(data)
 
 
 def my_login(request):
@@ -77,3 +82,13 @@ def testing(request, id_list):
             list(MenuItem.objects.filter(id=ident).values('price', 'name', 'image', 'id'))[0], cls=DjangoJSONEncoder)
 
     return JsonResponse(id_item)
+
+
+def validate_username(request):
+    username = request.GET.get('username', None)
+    data = {
+        'is_taken': User.objects.filter(username__iexact=username).exists()
+    }
+    if data['is_taken']:
+        data['error_message'] = 'Username tried is taken'
+    return JsonResponse(data)
