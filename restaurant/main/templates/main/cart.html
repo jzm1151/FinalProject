@@ -15,11 +15,20 @@
             <p style="display: inline;">$</p>
             <output id="totalPrice">0</output>
             <br>
-            <button class="removeItem"><</button>
+            <button class="removeItem">-</button>
             <output class="quantityOfItem">0</output>
-            <button class="addAnother">></button>
+            <button class="addAnother">+</button>
             <button class="remove">REMOVE</button>
         </div>
+    </div>
+    <div class="totalCostOfOrder">
+        <h2 id="headingForTotal">Total:</h2>
+        <output id="costAfterTax">0.00</output>
+        <p style="float: right; margin-top: 5px; margin-right: 2px;">= $</p>
+        <output id="taxTotal">0.00</output>
+        <p style="float: right; margin-top: 5px; margin-right: 2px;">+ $</p>
+        <output id="orderTotalBeforeTax">0.00</output>
+        <p style="float: right; margin-top: 5px; margin-right: 2px;">$</p>
     </div>
 </div>
 
@@ -36,6 +45,8 @@
     $.get(cartItemsURL, function (data) {
         let jsonObj;
         let cartItem;
+        let total = 0.00;
+        const tax = 0.06;
         const modelItem = $('.cartItem');
         for (const value of Object.values(data)) {
             jsonObj = JSON.parse(value);
@@ -44,15 +55,29 @@
             cartItem.children('#price').val(jsonObj['price']);
             cartItem.children('h4').text(jsonObj['name']);
             cartItem.children('button.removeItem').click(function () {
-                let qty = parseInt($(this).siblings('output.quantityOfItem').val())-1;
+                const qty = parseInt($(this).siblings('output.quantityOfItem').val())-1;
                 if (qty < 0) return;
+                const price = parseFloat($(this).siblings('#price').val());
+                const tax = 0.06;
+                let total = parseFloat($('#orderTotalBeforeTax').val());
                 $(this).siblings('output.quantityOfItem').val(qty);
-                $(this).siblings('#totalPrice').val((parseFloat($(this).siblings('#price').val()) * (qty)).toFixed(2));
+                $(this).siblings('#totalPrice').val((price * qty).toFixed(2));
+                total = total - price;
+                $('#orderTotalBeforeTax').val((total).toFixed(2));
+                $('#taxTotal').val((total * tax).toFixed(2));
+                $('#costAfterTax').val((total*tax + total).toFixed(2));
             });
             cartItem.children('button.addAnother').click(function () {
                 let qty = parseInt($(this).siblings('output.quantityOfItem').val())+1;
+                const price = parseFloat($(this).siblings('#price').val());
+                const tax = 0.06;
+                let total = parseFloat($('#orderTotalBeforeTax').val());
                 $(this).siblings('output.quantityOfItem').val(qty);
-                $(this).siblings('#totalPrice').val((parseFloat($(this).siblings('#price').val()) * (qty)).toFixed(2));
+                $(this).siblings('#totalPrice').val((price * qty).toFixed(2));
+                total = total + price;
+                $('#orderTotalBeforeTax').val((total).toFixed(2));
+                $('#taxTotal').val((total * tax).toFixed(2));
+                $('#costAfterTax').val((total*tax + total).toFixed(2));
             });
             cartItem.children('output.quantityOfItem').val(localStorage.getItem(jsonObj['id']));
             cartItem.children('#totalPrice').val((parseFloat(jsonObj['price']) * localStorage.getItem(jsonObj['id'])).toFixed(2));
@@ -65,6 +90,10 @@
                     });
             cartItem.appendTo('.cartItemsContainer');
             cartItem.show(1000);
+            total = total + parseFloat(jsonObj['price']) * localStorage.getItem(jsonObj['id']);
+            $('#orderTotalBeforeTax').val((total).toFixed(2));
+            $('#taxTotal').val((total * tax).toFixed(2));
+            $('#costAfterTax').val((total*tax +  total).toFixed(2));
         }
     });
 
