@@ -6,10 +6,11 @@
 <link rel="stylesheet" type="text/css" href="{% static 'main/CSS/cart.css' %}">
 
 <div class="cart">
-    <h1 style="color: #f6f6f6">Cart</h1>
+    <h1 style="color: #f6f6f6; text-shadow: 4px 2px 4px #1b1b1b;">Cart</h1>
     <div class="cartItemsContainer">
         <div class="cartItem">
             <img src="">
+            <input type="hidden" id="itemID">
             <input type="hidden" id="price">
             <h4></h4>
             <p style="display: inline;">$</p>
@@ -52,6 +53,7 @@
             jsonObj = JSON.parse(value);
             cartItem =  modelItem.clone();
             cartItem.children('img').attr('src', '/media/' + jsonObj['image']);
+            cartItem.children('#itemID').val(jsonObj['id']);
             cartItem.children('#price').val(jsonObj['price']);
             cartItem.children('h4').text(jsonObj['name']);
             cartItem.children('button.removeItem').click(function () {
@@ -66,6 +68,7 @@
                 $('#orderTotalBeforeTax').val((total).toFixed(2));
                 $('#taxTotal').val((total * tax).toFixed(2));
                 $('#costAfterTax').val((total*tax + total).toFixed(2));
+                localStorage.setItem($(this).siblings('#itemID').val(), String(qty));
             });
             cartItem.children('button.addAnother').click(function () {
                 let qty = parseInt($(this).siblings('output.quantityOfItem').val())+1;
@@ -78,14 +81,24 @@
                 $('#orderTotalBeforeTax').val((total).toFixed(2));
                 $('#taxTotal').val((total * tax).toFixed(2));
                 $('#costAfterTax').val((total*tax + total).toFixed(2));
+                localStorage.setItem($(this).siblings('#itemID').val(), String(qty));
             });
             cartItem.children('output.quantityOfItem').val(localStorage.getItem(jsonObj['id']));
             cartItem.children('#totalPrice').val((parseFloat(jsonObj['price']) * localStorage.getItem(jsonObj['id'])).toFixed(2));
             cartItem.children('button.remove')
                     .attr('id', jsonObj['id'])
                     .click(function () {
-                        alert(this.id);
-                        alert(localStorage.getItem(cartIdListKey).replace(this.id.concat(cartIdListDelimiter), ''));
+                        const tax = 0.06;
+                        let total = parseFloat($('#orderTotalBeforeTax').val());
+                        const price = parseFloat($(this).siblings('#price').val());
+                        const qty = parseInt(localStorage.getItem(this.id));
+                        total = total - price*qty;
+                        $('#orderTotalBeforeTax').val((total).toFixed(2));
+                        $('#taxTotal').val((total * tax).toFixed(2));
+                        $('#costAfterTax').val((total*tax + total).toFixed(2));
+                        localStorage.setItem(cartIdListKey,
+                            localStorage.getItem(cartIdListKey).replace(this.id.concat(cartIdListDelimiter), ''));
+                        localStorage.removeItem(this.id);
                         $('#'.concat(this.id)).parent('.cartItem').hide(500);
                     });
             cartItem.appendTo('.cartItemsContainer');
