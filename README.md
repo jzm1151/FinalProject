@@ -11,19 +11,19 @@ Software used:
     
 ## How to run:
 
-To get started, we must intially start an enviroment.
+To get started, we must intially create and start an enviroment.
 
-    pipenv install requests
+    https://docs.python.org/3/library/venv.html
 
-text3
+Then to install project dependencies run
   
     pip install -r requirements.txt
 
-text2
+To start the server for the site run
 
     python manage.py runserver
 
-text1
+To gain access to the admin page run
 
 To create an admin user, run the following command on the PyCharm terminal: 
     
